@@ -128,6 +128,16 @@ if [ -z "${IMG_NAME}" ]; then
 	exit 1
 fi
 
+if [ -z "$1" ]; then
+	echo "Missing argument" 1>&2
+	echo "Pass the path to the retcon deb file" 1>&2
+	echo "which must be built on the Raspberry Pi." 1>&2
+	echo "See README.md in retcon." 1>&2
+	exit 1
+fi
+
+export RETCON_DEB=$(realpath "$1")
+
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

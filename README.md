@@ -14,7 +14,7 @@ For more information, see [RetCon][].
 Run:
 
 ```sh
-sudo ./build.sh
+sudo ./build.sh /path/to/retcon.deb
 ```
 
 The output will be in `deploy/`.
