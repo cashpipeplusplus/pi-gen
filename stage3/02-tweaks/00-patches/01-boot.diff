@@ -12,7 +12,7 @@
  
  # Uncomment this to enable the lirc-rpi module
  #dtoverlay=lirc-rpi
-@@ -53,4 +53,7 @@
+@@ -53,4 +53,6 @@
  # Additional overlays and parameters are documented /boot/overlays/README
  
  # Enable audio (loads snd_bcm2835)
@@ -20,4 +20,3 @@
 +#dtparam=audio=on
 +
 +enable_uart=0
-+gpu_mem=16
