@@ -10,4 +10,7 @@ apt-get autoremove -y
 
 # Enable SSH by default, for debugging when a network interface is plugged in.
 systemctl enable ssh
+
+# Set keyboard layout to US.
+sed -e 's/XKBLAYOUT=.*/XKBLAYOUT="us"/' -i /etc/default/keyboard
 EOF
