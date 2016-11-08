@@ -5,8 +5,11 @@ install -m 644 files/hostname ${ROOTFS_DIR}/etc/hostname
 
 on_chroot sh -e - <<EOF
 # Remove some packages we don't need.
-apt-get remove -y --purge avahi-daemon cron logrotate triggerhappy
-apt-get autoremove -y
+apt-get remove -y --purge avahi-daemon logrotate triggerhappy dphys-swapfile
+apt-get autoremove -y --purge
+
+# Do not wait for network to boot.
+rm -f /etc/systemd/system/dhcpcd.service.d/wait.conf
 
 # Enable SSH by default, for debugging when a network interface is plugged in.
 systemctl enable ssh
