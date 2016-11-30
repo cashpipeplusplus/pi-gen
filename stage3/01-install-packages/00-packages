@@ -1,4 +1,4 @@
 bluez-hcidump
 pigpio
-python-gobject
-python-dbus
+python-gobject python-dbus
+debhelper git libusb-dev
