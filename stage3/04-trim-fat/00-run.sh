@@ -3,9 +3,22 @@
 # NOTE: must be bash, since I'm using fancy expansions below.
 on_chroot bash -e - <<EOF
 # Remove some packages we don't need.
-apt-get remove -y --purge avahi-daemon logrotate triggerhappy dphys-swapfile
-apt-get remove -y --purge libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
+apt-get remove -y --purge \
+  avahi-daemon logrotate triggerhappy dphys-swapfile \
+  libraspberrypi-dev libraspberrypi-doc libfreetype6-dev \
+  xauth xdg-user-dirs xkb-data \
+  wpasupplicant wireless-regdb wireless-tools iw \
+  samba-common cifs-utils sgml-base xml-core \
+  v4l-utils traceroute tcpd rsync netcat-openbsd netcat-traditional \
+  ncdu manpages manpages-dev locales \
+  libxapian22 aptitude iptables
+# Remove any packages which are no longer depended on.
 apt-get autoremove -y --purge
+
+# Remove boot services we do not need.
+for i in bootlogs motd rmnologin; do
+  update-rc.d \$i remove
+done
 
 # Trash kernel for old Pi 2 models (we use Pi zero only).
 rm -rf /lib/modules/4.4.26-v7+ /boot/kernel7.img
@@ -15,23 +28,9 @@ rm -rf /usr/share/doc /usr/share/man
 
 # Trash non-English locales.
 mkdir /usr/share/locale.bk
-mv /usr/share/locale/{en*,locale.alias} /usr/share/locale.bk/
+mv /usr/share/locale/en* /usr/share/locale.bk/
 rm -rf /usr/share/locale
 mv /usr/share/locale{.bk,}
-
-# Trash non-English i18n.
-mkdir /usr/share/i18n/locales.bk
-mv /usr/share/i18n/locales/{en*,C,POSIX,i18n} /usr/share/i18n/locales.bk/
-rm -rf /usr/share/i18n/locales
-mv /usr/share/i18n/locales{.bk,}
-
-mkdir /usr/share/i18n/charmaps.bk
-mv /usr/share/i18n/charmaps/UTF-8.gz /usr/share/i18n/charmaps.bk/
-rm -rf /usr/share/i18n/charmaps
-mv /usr/share/i18n/charmaps{.bk,}
-
-grep 'en_.*UTF-8' /usr/share/i18n/SUPPORTED > /usr/share/i18n/SUPPORTED.bk
-mv /usr/share/i18n/SUPPORTED{.bk,}
 
 # Clean up.
 apt-get clean
